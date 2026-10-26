@@ -1,0 +1,108 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, hero, highlights, projects, moreProjects, jobs, space, posts, nav } from '../data/site';
+const year = new Date().getFullYear();
+---
+<Base>
+  <header class="top">
+    <nav class="wrap nav" aria-label="Main">
+      <a class="brand" href="#main">{site.handle}</a>
+      <div class="menu">{nav.map((n) => <a href={n.href}>{n.label}</a>)}</div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="wrap hero">
+      <div class="hero-main">
+        {site.openToWork && <p class="badge"><i aria-hidden="true"></i>Open to remote roles in the EU</p>}
+        <h1>{site.first}<br />{site.last}</h1>
+        <p class="lead">{hero.lead}</p>
+        <div class="ctas">
+          <a class="btn btn-p" href="#work">See my work</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
+      </div>
+      <div class="term" aria-label="Summary">
+        <div class="cmd">$ whoami</div>
+        {hero.whoami.map(([k, v]) => <div><b>{k}</b>{v}</div>)}
+      </div>
+    </div>
+
+    <div class="strip">
+      <ul class="wrap" aria-label="Highlights">
+        {highlights.map((h) => <li><strong>{h.title}</strong><span>{h.text}</span></li>)}
+      </ul>
+    </div>
+
+    <section id="work" class="wrap">
+      <p class="eyebrow">Selected work</p>
+      <h2>Things I've built</h2>
+      <div class="cards">
+        {projects.map((p) => (
+          <article class="card">
+            <p class:list={['meta', { win: p.highlight }]}>{p.meta}</p>
+            <h3>{p.link ? <a href={p.link}>{p.title}</a> : p.title}</h3>
+            <p>{p.text}</p>
+            <ul class="tags">{p.tags.map((t) => <li>{t}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+      <p class="more">Also: {moreProjects}</p>
+    </section>
+
+    <section id="experience" class="exp">
+      <div class="wrap">
+        <div class="exp-head">
+          <p class="eyebrow">Experience</p>
+          <h2>Where I work</h2>
+        </div>
+        <ol class="jobs">
+          {jobs.map((j) => (
+            <li>
+              <span class="when">{j.when}</span>
+              <span class="body"><strong>{j.role}</strong> · {j.org}<br /><span class="muted">{j.text}</span></span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <section id="space" class="wrap">
+      <p class="eyebrow">Space</p>
+      <h2>Off-planet, almost</h2>
+      <div class="space-g">
+        {space.map((s) => <div><p class="when">{s.when}</p><strong>{s.title}</strong><span>{s.text}</span></div>)}
+      </div>
+    </section>
+
+    <section id="writing" class="wrap" style="padding-top:0">
+      <p class="eyebrow">Writing</p>
+      <h2>Notes &amp; write-ups</h2>
+      <div class="posts">
+        {posts.map((p) => p.href
+          ? <a class="post" href={p.href}><span class="t">{p.title}</span><span class="d">{p.date} · {p.topic}</span></a>
+          : <div class="post"><span class="t">{p.title}</span><span class="d">{p.date} · {p.topic}</span></div>)}
+      </div>
+    </section>
+
+    <section id="contact" class="wrap" style="padding-top:0">
+      <div class="contact">
+        <div>
+          <h2>Let's build something</h2>
+          <p>Open to remote backend, embedded and security roles with EU teams.</p>
+        </div>
+        <div class="ctas">
+          <a class="btn btn-p" href={`mailto:${site.email}`}>Email me</a>
+          {site.links.map((l) => <a class="btn" href={l.href} rel="me noopener">{l.label}</a>)}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <span>© {year} {site.name} · Kraków</span>
+      <span>Polish · English (B2, FCE) · built with Astro, no trackers</span>
+    </div>
+  </footer>
+</Base>
